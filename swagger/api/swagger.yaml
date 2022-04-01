@@ -1,0 +1,436 @@
+---
+swagger: "2.0"
+info:
+  description: "megadotnet  https://github.com/megadotnet/"
+  version: "1.0"
+  title: "megadotnet 使用Swagger2 构建RESTful API"
+  termsOfService: "https://github.com/megadotnet/"
+  contact:
+    name: "megadotnet"
+host: "localhost:7080"
+basePath: "/"
+tags:
+- name: "user-account-controller"
+  description: "User Account API"
+- name: "user-jwt-controller"
+  description: "UserJWTController API"
+paths:
+  /api/account:
+    get:
+      tags:
+      - "user-account-controller"
+      summary: "getAccount"
+      description: "get Account"
+      operationId: "getAccountUsingGET"
+      produces:
+      - "*/*"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/UserDTO"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+    post:
+      tags:
+      - "user-account-controller"
+      summary: "saveAccount"
+      description: "save Account"
+      operationId: "saveAccountUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "userDTO"
+        description: "userDTO"
+        required: true
+        schema:
+          $ref: "#/definitions/UserDTO"
+        x-exportParamName: "UserDTO"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseEntity"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/account/change_password:
+    post:
+      tags:
+      - "user-account-controller"
+      summary: "changePassword"
+      description: "change Password"
+      operationId: "changePasswordUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "password"
+        description: "password"
+        required: true
+        schema:
+          type: "string"
+        x-exportParamName: "Password"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseEntity"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/account/reset_password/finish:
+    post:
+      tags:
+      - "user-account-controller"
+      summary: "finishPasswordReset"
+      description: "finish PasswordReset"
+      operationId: "finishPasswordResetUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "keyAndPassword"
+        description: "keyAndPassword"
+        required: true
+        schema:
+          $ref: "#/definitions/KeyAndPasswordVM"
+        x-exportParamName: "KeyAndPassword"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "string"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/account/reset_password/init:
+    post:
+      tags:
+      - "user-account-controller"
+      summary: "requestPasswordReset"
+      description: "request PasswordReset"
+      operationId: "requestPasswordResetUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "mail"
+        description: "mail"
+        required: true
+        schema:
+          type: "string"
+        x-exportParamName: "Mail"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseEntity"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/activate:
+    get:
+      tags:
+      - "user-account-controller"
+      summary: "activateAccount"
+      description: "activate Account"
+      operationId: "activateAccountUsingGET"
+      produces:
+      - "*/*"
+      parameters:
+      - name: "key"
+        in: "query"
+        description: "key"
+        required: true
+        type: "string"
+        x-exportParamName: "Key"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "string"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/authenticate:
+    get:
+      tags:
+      - "user-account-controller"
+      summary: "isAuthenticated"
+      description: "is Authenticated"
+      operationId: "isAuthenticatedUsingGET"
+      produces:
+      - "*/*"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "string"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+    post:
+      tags:
+      - "user-jwt-controller"
+      summary: "authorize"
+      description: "authorize"
+      operationId: "authorizeUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "*/*"
+      parameters:
+      - in: "body"
+        name: "loginVM"
+        description: "loginVM"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginVM"
+        x-exportParamName: "LoginVM"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseEntity"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+  /api/register:
+    post:
+      tags:
+      - "user-account-controller"
+      summary: "registerAccount"
+      description: "register Account"
+      operationId: "registerAccountUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      - "text/plain"
+      parameters:
+      - in: "body"
+        name: "managedUserVM"
+        description: "managedUserVM"
+        required: true
+        schema:
+          $ref: "#/definitions/ManagedUserVM"
+        x-exportParamName: "ManagedUserVM"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ResponseEntity"
+        "201":
+          description: "Created"
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Not Found"
+definitions:
+  KeyAndPasswordVM:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+      newPassword:
+        type: "string"
+    title: "KeyAndPasswordVM"
+  LoginVM:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+      rememberMe:
+        type: "boolean"
+      username:
+        type: "string"
+        description: "User Name"
+    title: "LoginVM"
+  ManagedUserVM:
+    type: "object"
+    properties:
+      activated:
+        type: "boolean"
+      authorities:
+        type: "array"
+        items:
+          type: "string"
+      email:
+        type: "string"
+      firstName:
+        type: "string"
+        description: "First Name"
+      id:
+        type: "integer"
+        format: "int64"
+      imageUrl:
+        type: "string"
+      langKey:
+        type: "string"
+      lastName:
+        type: "string"
+      login:
+        type: "string"
+      password:
+        type: "string"
+    title: "ManagedUserVM"
+  ResponseEntity:
+    type: "object"
+    properties:
+      body:
+        type: "object"
+        properties: {}
+      statusCode:
+        type: "string"
+        enum:
+        - "100 CONTINUE"
+        - "101 SWITCHING_PROTOCOLS"
+        - "102 PROCESSING"
+        - "103 CHECKPOINT"
+        - "200 OK"
+        - "201 CREATED"
+        - "202 ACCEPTED"
+        - "203 NON_AUTHORITATIVE_INFORMATION"
+        - "204 NO_CONTENT"
+        - "205 RESET_CONTENT"
+        - "206 PARTIAL_CONTENT"
+        - "207 MULTI_STATUS"
+        - "208 ALREADY_REPORTED"
+        - "226 IM_USED"
+        - "300 MULTIPLE_CHOICES"
+        - "301 MOVED_PERMANENTLY"
+        - "302 FOUND"
+        - "302 MOVED_TEMPORARILY"
+        - "303 SEE_OTHER"
+        - "304 NOT_MODIFIED"
+        - "305 USE_PROXY"
+        - "307 TEMPORARY_REDIRECT"
+        - "308 PERMANENT_REDIRECT"
+        - "400 BAD_REQUEST"
+        - "401 UNAUTHORIZED"
+        - "402 PAYMENT_REQUIRED"
+        - "403 FORBIDDEN"
+        - "404 NOT_FOUND"
+        - "405 METHOD_NOT_ALLOWED"
+        - "406 NOT_ACCEPTABLE"
+        - "407 PROXY_AUTHENTICATION_REQUIRED"
+        - "408 REQUEST_TIMEOUT"
+        - "409 CONFLICT"
+        - "410 GONE"
+        - "411 LENGTH_REQUIRED"
+        - "412 PRECONDITION_FAILED"
+        - "413 PAYLOAD_TOO_LARGE"
+        - "413 REQUEST_ENTITY_TOO_LARGE"
+        - "414 URI_TOO_LONG"
+        - "414 REQUEST_URI_TOO_LONG"
+        - "415 UNSUPPORTED_MEDIA_TYPE"
+        - "416 REQUESTED_RANGE_NOT_SATISFIABLE"
+        - "417 EXPECTATION_FAILED"
+        - "418 I_AM_A_TEAPOT"
+        - "419 INSUFFICIENT_SPACE_ON_RESOURCE"
+        - "420 METHOD_FAILURE"
+        - "421 DESTINATION_LOCKED"
+        - "422 UNPROCESSABLE_ENTITY"
+        - "423 LOCKED"
+        - "424 FAILED_DEPENDENCY"
+        - "425 TOO_EARLY"
+        - "426 UPGRADE_REQUIRED"
+        - "428 PRECONDITION_REQUIRED"
+        - "429 TOO_MANY_REQUESTS"
+        - "431 REQUEST_HEADER_FIELDS_TOO_LARGE"
+        - "451 UNAVAILABLE_FOR_LEGAL_REASONS"
+        - "500 INTERNAL_SERVER_ERROR"
+        - "501 NOT_IMPLEMENTED"
+        - "502 BAD_GATEWAY"
+        - "503 SERVICE_UNAVAILABLE"
+        - "504 GATEWAY_TIMEOUT"
+        - "505 HTTP_VERSION_NOT_SUPPORTED"
+        - "506 VARIANT_ALSO_NEGOTIATES"
+        - "507 INSUFFICIENT_STORAGE"
+        - "508 LOOP_DETECTED"
+        - "509 BANDWIDTH_LIMIT_EXCEEDED"
+        - "510 NOT_EXTENDED"
+        - "511 NETWORK_AUTHENTICATION_REQUIRED"
+      statusCodeValue:
+        type: "integer"
+        format: "int32"
+    title: "ResponseEntity"
+    example:
+      statusCodeValue: 0
+      body: "{}"
+      statusCode: "100 CONTINUE"
+  UserDTO:
+    type: "object"
+    properties:
+      activated:
+        type: "boolean"
+      authorities:
+        type: "array"
+        items:
+          type: "string"
+      email:
+        type: "string"
+      firstName:
+        type: "string"
+        description: "First Name"
+      id:
+        type: "integer"
+        format: "int64"
+      imageUrl:
+        type: "string"
+      langKey:
+        type: "string"
+      lastName:
+        type: "string"
+      login:
+        type: "string"
+    title: "UserDTO"
