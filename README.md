@@ -15,6 +15,11 @@ Put the package under your project folder and add the following in import:
 import "testingappdemo/swagger"
 ```
 
+## Testing
+```golang
+go test -v
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *https://localhost:7080*
