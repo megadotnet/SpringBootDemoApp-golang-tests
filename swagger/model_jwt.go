@@ -1,10 +1,9 @@
 /*
  *
  * megadotnet  https://github.com/megadotnet/
- *
+ * created by mannual
  * JWT Token
  */
-
 
 package swagger
 

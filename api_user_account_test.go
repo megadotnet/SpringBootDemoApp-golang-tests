@@ -15,6 +15,7 @@ import (
 
 const ACCOUNTPREFIX string = "account"
 
+//HTTP GET /api/account
 func TestGetAccount(t *testing.T) {
 	timen := time.Now() //It will return time.Time object with current timestamp
 	resp, r, err := GetAccount(t, timen.UnixNano())
@@ -29,6 +30,43 @@ func TestGetAccount(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(err)
 	}
+}
+
+//Register Account
+func TestRegisterAccount(t *testing.T) {
+	timen := time.Now() //It will return time.Time object with current timestamp
+
+	resp, r, err := CreateRegisterProc(t, timen.UnixNano())
+	assert := assert.New(t)
+	if err != nil {
+		t.Errorf("Error while TestRegisterAccount api")
+		t.Log(err)
+	} else {
+		assert.NotNil(resp, "Result should not be null")
+	}
+	if r.StatusCode != 201 {
+		t.Log(err)
+	}
+}
+
+//create random customer accout
+//response body if success:
+//HTTP/1.1 201 Created
+//Content-Length: 0
+func CreateRegisterProc(t *testing.T, timen int64) (sw.ResponseEntity, *http.Response, error) {
+
+	registerModel := sw.ManagedUserVm{
+		Email:     RandStringBytesMaskImprSrcSB(16) + strconv.FormatInt(int64(time.Nanosecond)*timen/int64(time.Microsecond), 10) + "@gmail.com",
+		Password:  "testpwd1234",
+		Login:     RandStringBytesMaskImprSrcSB(16) + strconv.FormatInt(int64(time.Nanosecond)*timen/int64(time.Microsecond), 10),
+		ImageUrl:  "IMAGE.png",
+		LangKey:   "en-us",
+		LastName:  "LastName",
+		FirstName: "FirstName"}
+
+	t.Log(registerModel.Login)
+
+	return client.UserAccountControllerApi.RegisterAccountUsingPOST(context.Background(), registerModel)
 }
 
 //Get Account API Concurrency
