@@ -69,6 +69,38 @@ func CreateRegisterProc(t *testing.T, timen int64) (sw.ResponseEntity, *http.Res
 	return client.UserAccountControllerApi.RegisterAccountUsingPOST(context.Background(), registerModel)
 }
 
+/**
+ * POST /account : update the current user information.
+ *
+ * @param userDTO
+ *            the current user information
+ * @return the ResponseEntity with status 200 (OK), or status 400 (Bad
+ *         Request) or 500 (Internal Server Error) if the user couldn't be
+ *         updated
+ */
+func TestSaveUserAccount(t *testing.T) {
+
+	userDtoModel := sw.UserDto{
+		Email:     "admin@gmail.com",
+		Login:     "admin",
+		ImageUrl:  "IMAGE1.png",
+		LangKey:   "en-us",
+		LastName:  "LastName",
+		FirstName: "FirstName"}
+
+	resp, r, err := client.UserAccountControllerApi.SaveAccountUsingPOST(context.Background(), userDtoModel)
+	assert := assert.New(t)
+	if err != nil {
+		t.Errorf("Error while TestSaveUserAccount api")
+		t.Log(err)
+	} else {
+		assert.NotNil(resp, "Result should not be null")
+	}
+	if r.StatusCode != 200 {
+		t.Log(err)
+	}
+}
+
 //Get Account API Concurrency
 func TestGetAccountConcurrency(t *testing.T) {
 	errc := make(chan error)
