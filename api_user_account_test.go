@@ -101,6 +101,31 @@ func TestSaveUserAccount(t *testing.T) {
 	}
 }
 
+/**
+ * POST /account/change_password : changes the current user's password
+ *
+ * @param password
+ *            the new password
+ * @return the ResponseEntity with status 200 (OK), or status 400 (Bad
+ *         Request) if the new password is not strong enough
+ */
+func TestChangePassword(t *testing.T) {
+
+	newPwd := "admin"
+
+	resp, r, err := client.UserAccountControllerApi.ChangePasswordUsingPOST(context.Background(), newPwd)
+	assert := assert.New(t)
+	if err != nil {
+		t.Errorf("Error while TestChangePassword api")
+		t.Log(err)
+	} else {
+		assert.NotNil(resp, "Result should not be null")
+	}
+	if r.StatusCode != 200 {
+		t.Log(err)
+	}
+}
+
 //Get Account API Concurrency
 func TestGetAccountConcurrency(t *testing.T) {
 	errc := make(chan error)
