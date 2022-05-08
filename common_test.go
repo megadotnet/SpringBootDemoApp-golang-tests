@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	//"net/url"
 	"os"
 	"testing"
 	sw "testingappdemo/swagger"
@@ -19,9 +21,17 @@ var client *sw.APIClient
 func TestMain(m *testing.M) {
 	cfg := sw.NewConfiguration()
 
+	//creating the proxyURL
+	//proxyStr := "http://localhost:8888"
+	//proxyURL, err := url.Parse(proxyStr)
+	//if err != nil {
+	//	fmt.Print(err)
+	//}
+
 	//login process
 	loginModel := CreateLoginModel()
 	tr := &http.Transport{
+		//Proxy:           http.ProxyURL(proxyURL),
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	myclient := &http.Client{Transport: tr}

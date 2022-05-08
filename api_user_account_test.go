@@ -146,6 +146,32 @@ func TestGetAccountConcurrency(t *testing.T) {
 	waitOnFunctions(t, errc, sum)
 }
 
+/**
+ * POST /account/reset_password/init : Send an email to reset the password
+ * of the user
+ *
+ * @param mail
+ *            the mail of the user
+ * @return the ResponseEntity with status 200 (OK) if the email was sent, or
+ *         status 400 (Bad Request) if the email address is not registered
+ */
+func TestRequestPasswordReset(t *testing.T) {
+
+	testEmail := "admin@gmail.com"
+
+	resp, r, err := client.UserAccountControllerApi.RequestPasswordResetUsingPOST(context.Background(), testEmail)
+	assert := assert.New(t)
+	if err != nil {
+		t.Errorf("Error while RequestPasswordReset api")
+		t.Log(err)
+	} else {
+		assert.NotNil(resp, "Result should not be null")
+	}
+	if r.StatusCode != 200 {
+		t.Log(err)
+	}
+}
+
 func GetAccount(t *testing.T, timen int64) (sw.UserDto, *http.Response, error) {
 
 	return client.UserAccountControllerApi.GetAccountUsingGET(context.Background())
